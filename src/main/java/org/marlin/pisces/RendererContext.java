@@ -97,6 +97,8 @@ final class RendererContext implements PiscesConst {
     final Renderer renderer;
     /* Stroker */
     final Stroker stroker;
+    /* Simplifies out collinear lines */
+    final CollinearSimplifier simplifier = new CollinearSimplifier();
     /**
      * Dasher
      */

@@ -269,6 +269,9 @@ public class PiscesRenderingEngine extends RenderingEngine implements PiscesCons
                         float dashphase,
                         PathConsumer2D pc2d)
     {
+        rdrCtx.simplifier.init(pc2d);
+        pc2d = rdrCtx.simplifier;
+        
         // We use strokerat and outat so that in Stroker and Dasher we can work only
         // with the pre-transformation coordinates. This will repeat a lot of
         // computations done in the path iterator, but the alternative is to
