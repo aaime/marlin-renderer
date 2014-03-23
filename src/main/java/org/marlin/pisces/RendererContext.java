@@ -97,6 +97,7 @@ final class RendererContext implements PiscesConst {
     final Renderer renderer;
     /* Stroker */
     final Stroker stroker;
+   
     /**
      * Dasher
      */

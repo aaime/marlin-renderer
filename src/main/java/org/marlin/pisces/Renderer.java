@@ -25,6 +25,7 @@
 package org.marlin.pisces;
 
 import java.util.Arrays;
+
 import sun.awt.geom.PathConsumer2D;
 
 final class Renderer implements PathConsumer2D, PiscesConst {
@@ -117,6 +118,8 @@ final class Renderer implements PathConsumer2D, PiscesConst {
 
     private final int[] edgeBuckets_initial      = new int[INITIAL_BUCKET_ARRAY]; // 64K
     private final int[] edgeBucketCounts_initial = new int[INITIAL_BUCKET_ARRAY]; // 64K
+    
+    final LineSimplifier simplifier = new LineSimplifier();
 
     // Flattens using adaptive forward differencing. This only carries out
     // one iteration of the AFD loop. All it does is update AFD variables (i.e.
@@ -217,6 +220,13 @@ final class Renderer implements PathConsumer2D, PiscesConst {
     }
 
     private void addLine(float x1, float y1, float x2, float y2) {
+        if(!simplifier.addLine(x1, y1, x2, y2)) {
+            return;
+        }
+        addLineInternal(simplifier.sx1, simplifier.sy1, simplifier.sx2, simplifier.sy2);
+    }
+
+    private void addLineInternal(float x1, float y1, float x2, float y2) {
         if (doMonitors) {
             rdrCtx.mon_rdr_addLine.start();
         }
@@ -527,6 +537,9 @@ final class Renderer implements PathConsumer2D, PiscesConst {
     public void closePath() {
         // lineTo expects its input in pixel coordinates.
         lineTo(pix_sx0, pix_sy0);
+        if(simplifier.completed()) {
+            addLineInternal(simplifier.sx1, simplifier.sy1, simplifier.sx2, simplifier.sy2);
+        }
     }
 
     @Override

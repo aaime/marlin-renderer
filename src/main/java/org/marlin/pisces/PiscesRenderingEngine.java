@@ -268,7 +268,7 @@ public class PiscesRenderingEngine extends RenderingEngine implements PiscesCons
                         float dashes[],
                         float dashphase,
                         PathConsumer2D pc2d)
-    {
+    {      
         // We use strokerat and outat so that in Stroker and Dasher we can work only
         // with the pre-transformation coordinates. This will repeat a lot of
         // computations done in the path iterator, but the alternative is to
