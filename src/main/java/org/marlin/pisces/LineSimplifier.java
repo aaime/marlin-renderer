@@ -39,16 +39,20 @@ final class LineSimplifier {
         final float slope;
         if (hasPreviousLine && px2 == x1 && py2 == y2) {
             // same pixel test
-            if (samePixel(x1, y1, x2, y2)) {
-                // so short it all falls in the same (sub)pixel,
-                // let's just extend the previous line
-                px2 = x2;
-                py2 = y2;
-                // recompute the slope, we're interested in the overall slope of
-                // the simplified line, not the slope of its first too short element
-                pslope = getSlope(px1, py1, x2, y2);
+            if(x1 == x2 && y1 == y2) {
                 return false;
             }
+//            // this one is never entered into, so I've commented it out
+//            else if (samePixel(x1, y1, x2, y2)) {
+//                // so short it all falls in the same (sub)pixel,
+//                // let's just extend the previous line
+//                px2 = x2;
+//                py2 = y2;
+//                // recompute the slope, we're interested in the overall slope of
+//                // the simplified line, not the slope of its first too short element
+//                pslope = getSlope(px1, py1, x2, y2);
+//                return false;
+//            }
 
             // collinearity test
             slope = getSlope(x1, y1, x2, y2);
